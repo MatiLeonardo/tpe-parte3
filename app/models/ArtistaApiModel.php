@@ -21,4 +21,12 @@ class ArtistaApiModel
 
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function getArtista($id){
+        $query = $this->db->prepare('SELECT * from artistas WHERE id = ?');
+        $query->execute([$id]);
+        $artista = $query->fetch(PDO::FETCH_OBJ);
+
+        return $artista;
+    }
 }
