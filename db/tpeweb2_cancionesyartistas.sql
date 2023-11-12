@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-11-2023 a las 17:52:57
+-- Tiempo de generación: 12-11-2023 a las 18:09:15
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `artistas` (
-  `id_artista` int(11) NOT NULL,
-  `nombre_artista` varchar(30) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `nombre` varchar(30) DEFAULT NULL,
   `descripcion` varchar(800) NOT NULL,
   `edad` int(11) NOT NULL,
   `nacionalidad` varchar(45) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE `artistas` (
 -- Volcado de datos para la tabla `artistas`
 --
 
-INSERT INTO `artistas` (`id_artista`, `nombre_artista`, `descripcion`, `edad`, `nacionalidad`, `cant_oyentes`) VALUES
+INSERT INTO `artistas` (`id`, `nombre`, `descripcion`, `edad`, `nacionalidad`, `cant_oyentes`) VALUES
 (1, 'Bad Bunny', 'Descripción 1', 25, 'Puerto Rico', 300000),
 (2, 'Arcangel', 'Descripción 2', 30, 'Puerto Rico', 150000),
 (3, 'Daddy Yankee', 'Ramón Luis Ayala Rodríguez, conocido artísticamente como Daddy Yankee, es un cantante, compositor, productor discográfico, locutor de radio​ y empresario puertorriqueño.​ Es considerado como el «rey del reguetón», tanto por los críticos como por los fanáticos de la música.', 46, 'Puerto Rico', 200000),
@@ -104,7 +104,7 @@ INSERT INTO `usuarios` (`id`, `usuario`, `password`, `isAdmin`) VALUES
 -- Indices de la tabla `artistas`
 --
 ALTER TABLE `artistas`
-  ADD PRIMARY KEY (`id_artista`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `canciones`
@@ -127,7 +127,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `artistas`
 --
 ALTER TABLE `artistas`
-  MODIFY `id_artista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `canciones`
@@ -149,7 +149,7 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `canciones`
 --
 ALTER TABLE `canciones`
-  ADD CONSTRAINT `canciones_ibfk_1` FOREIGN KEY (`id_artista`) REFERENCES `artistas` (`id_artista`);
+  ADD CONSTRAINT `canciones_ibfk_1` FOREIGN KEY (`id_artista`) REFERENCES `artistas` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
