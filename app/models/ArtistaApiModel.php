@@ -26,18 +26,10 @@ class ArtistaApiModel
     }
 
 
-    public function getArtistas($campo, $orden)
+    public function getArtistas($campo, $orden, $start_index, $elemPorPagina)
     {
-        $query = $this->db->prepare("SELECT * FROM artistas ORDER BY $campo $orden");
+        $query = $this->db->prepare("SELECT * FROM artistas ORDER BY {$campo} {$orden} LIMIT {$start_index}, {$elemPorPagina}");
         $query->execute();
-
-        return $query->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function getArtistasOrdenado($orden)
-    {
-        $query = $this->db->prepare("SELECT * FROM artistas ORDER BY ? DESC");
-        $query->execute([$orden]);
 
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
