@@ -1,20 +1,17 @@
-# TPE Parte 3: API de Información de Artistas
+TPE-PARTE3: API Información de Artistas
 
-¡Bienvenido a la API de Información de Artistas! Este proyecto ofrece acceso a datos de artistas almacenados en una base de datos.
+¡Bienvenido a la API de Información de Artistas! Esta API proporciona acceso a datos detallados de artistas almacenados en nuestra base de datos.
 
-**Aviso Especial para Belén:** Hemos incorporado el sistema de confirmación que solicitaste para la eliminación y modificación de artistas, tal como discutimos al decidir el uso de cascade.
+Aviso Especial para Belén: Hemos incorporado el sistema de confirmación que solicitaste para la eliminación y modificación de artistas utilizando el método cascade.
+Equipo
 
-**Integrantes del Equipo:**
-- Gonzalo Giacomino
-- Matías Gallardo
+    Miembro A: Gonzalo Giacomino
+    Miembro B: Matías Gallardo
 
-## Endpoints
-
-### Listado de Artistas
+Endpoints
+Listado de Artistas
 
 Cada artista se presenta en el siguiente formato:
-
-```json
 {
     "id": "2",
     "nombre": "Juan",
@@ -24,51 +21,62 @@ Cada artista se presenta en el siguiente formato:
     "cant_oyentes": "51515151"
 }
 
-    GET:/artists
-    Obtiene un listado de artistas ordenados por la cantidad de oyentes, de forma ascendente por defecto.
+GET:/albums
+
+Este endpoint lista los artistas por defecto según la cantidad de oyentes, de manera ascendente.
 
 Ordenamiento
 
     Query Params:
-        ?campo=nombre: Filtra los artistas por campos existentes en la tabla, por ejemplo: nombre, edad, nacionalidad.
-        ?orden=1: Ordena de manera descendente (1) o ascendente (0).
+        ?campo=nombre: Filtra a través de campos existentes en la tabla (ejemplo: nombre, edad, nacionalidad).
+        ?orden=1 o ?orden=0: Filtra de manera descendente (1) o ascendente (0).
 
 Paginado
 
     Query Params:
-        ?cantElemsPagina: Define la cantidad de elementos a mostrar (por defecto, 3).
-        ?pagina: Indica la página que se quiere recuperar.
+        ?cantElemsPagina: Recibe la cantidad de elementos a mostrar en el listado (valor por defecto: 3).
+        ?pagina: Indica la página a recuperar.
 
-Detalles de un Artista
+GET:/albums/:ID
 
-    GET:/artists/:ID
-    Obtiene la información de un artista específico mediante su ID.
+Este endpoint muestra la información de un artista especificado por su ID.
+POST:/albums
 
-Agregar un Artista
+Añade un nuevo artista a la base de datos.
 
-    POST:/artists
-    Agrega un nuevo artista a la base de datos. Se deben proporcionar los siguientes datos en el body.
+Datos requeridos en el body:
+{
+    "id": "2",
+    "nombre": "Juan",
+    "descripcion": "Holita",
+    "edad": "42",
+    "nacionalidad": "Puerto Rico",
+    "cant_oyentes": "51515151"
+}
 
-Modificar un Artista
+PUT:/albums/:ID
 
-    PUT:/artists/:ID
-    Modifica los datos de un artista especificado por su ID. Se requiere confirmación a través del query param ?confirmacion=true. En caso de no proporcionar ciertos datos, como la edad, se mantendrá el valor existente en la base de datos.
+Modifica los datos de un artista especificado por su ID.
 
-Ejemplo de Uso:
+Requiere confirmación a través del query param ?confirmacion=true.
 
-http
+Datos requeridos en el body:
+{
+    "id": "2",
+    "nombre": "Juan",
+    "descripcion": "Holita",
+    "edad": "42",
+    "nacionalidad": "Puerto Rico",
+    "cant_oyentes": "51515151"
+}
 
-PUT:/api/artistas/2?confirmacion=true
+En caso de no pasar algún dato (por ejemplo, la edad), se mantendrá el valor existente en la base de datos.
 
-Eliminar un Artista
+Ejemplo: PUT:/api/artistas/2?confirmacion=true
+DELETE:/albums/:ID
 
-    DELETE:/artists/:ID
-    Elimina un artista de la base de datos, indicando su ID. Se requiere confirmación a través del query param ?confirmacion=true.
+Elimina un artista de la base de datos, especificado por su ID.
 
-Ejemplo de Uso:
+Requiere confirmación a través del query param ?confirmacion=true.
 
-http
-
-DELETE:/api/artistas/2?confirmacion=true
-
-Este README proporciona detalles sobre los endpoints disponibles y cómo interactuar con la API para listar, agregar, modificar y eliminar información de artistas en la base de datos.
+Ejemplo: DELETE:/api/artistas/2?confirmacion=true
