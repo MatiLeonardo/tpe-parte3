@@ -8,5 +8,6 @@ $router = new Router();
 $router->addRoute('artistas'    , 'GET' , 'ArtistaApiController', 'get'    );
 $router->addRoute('artistas'    , 'POST', 'ArtistaApiController', 'agregar');
 $router->addRoute('artistas/:ID', 'GET' , 'ArtistaApiController', 'get'    );
+$router->addRoute('artistas/:ID', 'DELETE', 'ArtistaApiController' , 'delete'); 
 
 $router->route($_GET["resource"], $_SERVER['REQUEST_METHOD']);

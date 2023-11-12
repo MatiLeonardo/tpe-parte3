@@ -16,21 +16,24 @@ class ArtistaApiModel
         );
     }
 
-    public function getArtistas(){
-        $query = $this->db->prepare("SELECT * FROM artistas");
+    public function getArtistas()
+    {
+        $query = $this->db->prepare("SELECT * FROM artistas ORDER BY cant_oyentes DESC");
         $query->execute();
 
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function getArtistasOrdenado(){
-        $query = $this->db->prepare("SELECT * FROM artistas ORDER BY oyentes DESC");
-        $query->execute();
+    public function getArtistasOrdenado($orden)
+    {
+        $query = $this->db->prepare("SELECT * FROM artistas ORDER BY ? DESC");
+        $query->execute([$orden]);
 
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function getArtista($id){
+    public function getArtista($id)
+    {
         $query = $this->db->prepare('SELECT * from artistas WHERE id = ?');
         $query->execute([$id]);
         $artista = $query->fetch(PDO::FETCH_OBJ);
@@ -38,7 +41,8 @@ class ArtistaApiModel
         return $artista;
     }
 
-    public function getArtistaName($nombre){
+    public function getArtistaName($nombre)
+    {
         $query = $this->db->prepare('SELECT * from artistas WHERE nombre_artista = ?');
         $query->execute([$nombre]);
         $artista = $query->fetch(PDO::FETCH_OBJ);
@@ -46,7 +50,8 @@ class ArtistaApiModel
         return $artista;
     }
 
-    function addArtista($nombre, $descripcion, $edad, $nacionalidad, $oyentes){
+    function addArtista($nombre, $descripcion, $edad, $nacionalidad, $oyentes)
+    {
         $query = $this->db->prepare('INSERT INTO artistas (nombre_artista, descripcion, edad, nacionalidad, oyentes) VALUES (?, ?, ?, ?, ?)');
         $query->execute([$nombre, $descripcion, $edad, $nacionalidad, $oyentes]);
 
@@ -54,4 +59,10 @@ class ArtistaApiModel
 
     }
 
+
+    public function deleteArtista($id)
+    {
+        $query = $this->db->prepare('DELETE FROM artistas WHERE id = ?');
+        $query->execute([$id]);
+    }
 }
