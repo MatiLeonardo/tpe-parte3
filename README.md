@@ -1,17 +1,18 @@
-TPE-PARTE3: API Información de Artistas
+# TPE-PARTE3: API Información de Artistas
 
 ¡Bienvenido a la API de Información de Artistas! Esta API proporciona acceso a datos detallados de artistas almacenados en nuestra base de datos.
 
-Aviso Especial para Belén: Hemos incorporado el sistema de confirmación que solicitaste para la eliminación y modificación de artistas utilizando el método cascade.
-Equipo
+**Aviso Especial para Belén:** Hemos incorporado el sistema de confirmación que solicitaste para la eliminación y modificación de artistas utilizando el método cascade.
 
-    Miembro A: Gonzalo Giacomino
-    Miembro B: Matías Gallardo
+## Equipo
+- **Miembro A:** Gonzalo Giacomino
+- **Miembro B:** Matías Gallardo
 
-Endpoints
-Listado de Artistas
+## Endpoints
 
+### Listado de Artistas
 Cada artista se presenta en el siguiente formato:
+```json
 {
     "id": "2",
     "nombre": "Juan",
@@ -36,14 +37,16 @@ Paginado
     Query Params:
         ?cantElemsPagina: Recibe la cantidad de elementos a mostrar en el listado (valor por defecto: 3).
         ?pagina: Indica la página a recuperar.
+
 EJEMPLO COMPLETO DE LISTADO CON TODOS SUS FILTROS
 GET:/api/artistas/?campo=nombre&orden=1&pagina=1&cantElemsPagina=3
 
+
 GET:/albums/:ID
-
 Este endpoint muestra la información de un artista especificado por su ID.
-POST:/albums
 
+
+POST:/albums
 Añade un nuevo artista a la base de datos.
 
 Datos requeridos en el body:
@@ -56,8 +59,8 @@ Datos requeridos en el body:
     "cant_oyentes": "51515151"
 }
 
-PUT:/albums/:ID
 
+PUT:/albums/:ID
 Modifica los datos de un artista especificado por su ID.
 
 Requiere confirmación a través del query param ?confirmacion=true.
@@ -75,8 +78,9 @@ Datos requeridos en el body:
 En caso de no pasar algún dato (por ejemplo, la edad), se mantendrá el valor existente en la base de datos.
 
 Ejemplo: PUT:/api/artistas/2?confirmacion=true
-DELETE:/albums/:ID
 
+
+DELETE:/albums/:ID
 Elimina un artista de la base de datos, especificado por su ID.
 
 Requiere confirmación a través del query param ?confirmacion=true.
