@@ -12,7 +12,7 @@
 
 ### Listado de Artistas
 Cada artista se presenta en el siguiente formato:
-```json
+
 {
     "id": "2",
     "nombre": "Juan",
