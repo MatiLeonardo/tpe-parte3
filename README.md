@@ -36,6 +36,8 @@ Paginado
     Query Params:
         ?cantElemsPagina: Recibe la cantidad de elementos a mostrar en el listado (valor por defecto: 3).
         ?pagina: Indica la página a recuperar.
+EJEMPLO COMPLETO DE LISTADO CON TODOS SUS FILTROS
+GET:/api/artistas/?campo=nombre&orden=1&pagina=1&cantElemsPagina=3
 
 GET:/albums/:ID
 
