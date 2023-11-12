@@ -22,7 +22,7 @@ Cada artista se presenta en el siguiente formato:
     "cant_oyentes": "51515151"
 }
 
-#### GET:/albums
+#### GET:/artistas
 
 Este endpoint lista los artistas por defecto según la cantidad de oyentes, de manera ascendente.
 
@@ -42,11 +42,11 @@ EJEMPLO COMPLETO DE LISTADO CON TODOS SUS FILTROS
 GET:/api/artistas/?campo=nombre&orden=1&pagina=1&cantElemsPagina=3
 
 
-#### GET:/albums/:ID
+#### GET:/artistas/:ID
 Este endpoint muestra la información de un artista especificado por su ID.
 
 
-#### POST:/albums
+#### POST:/artistas
 Añade un nuevo artista a la base de datos.
 
 Datos requeridos en el body:
@@ -60,7 +60,7 @@ Datos requeridos en el body:
 }
 
 
-#### PUT:/albums/:ID
+#### PUT:/artistas/:ID
 Modifica los datos de un artista especificado por su ID.
 
 Requiere confirmación a través del query param ?confirmacion=true.
@@ -80,7 +80,7 @@ En caso de no pasar algún dato (por ejemplo, la edad), se mantendrá el valor e
 Ejemplo: PUT:/api/artistas/2?confirmacion=true
 
 
-#### DELETE:/albums/:ID
+#### DELETE:/artistas/:ID
 Elimina un artista de la base de datos, especificado por su ID.
 
 Requiere confirmación a través del query param ?confirmacion=true.
