@@ -31,4 +31,26 @@ class ArtistaApiController extends ApiController
         }
       
     }
+
+    public function agregar(){
+        $body = $this->getData();     
+        
+        $nombre = $body->nombre;
+        $descripcion = $body->descripcion;
+        $edad = $body->$edad;
+        $nacionalidad = $body->nacionalidad;
+        $oyentes = $body->oyentes;
+        
+        $existe = $this->model->getArtistaName($nombre);
+        if(empty($existe)){
+            $id = $this->model->addArtista($nombre, $descripcion, $edad, $nacionalidad, $oyentes);
+            $artista = $this->model->getArtista($id);
+            $this->view->response($artista, 201);
+        }
+        else {
+            $this->view->response('El artista '.$nombre.' ya existe.', 400);
+        }
+        
+
+    }
 }
