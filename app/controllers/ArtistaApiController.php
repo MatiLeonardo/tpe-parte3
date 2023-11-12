@@ -17,7 +17,11 @@ class ArtistaApiController extends ApiController
     public function get($params = [])
     {
         if (empty($params)) {
-            $artistas = $this->model->getArtistas();
+
+            $campo = (isset($_GET['campo']) && $this->model->columnExists($_GET['campo']) ? $_GET['campo'] : 'id'); // SI ESTA SETEADO CAMPO Y EXISTE EN LA TABLA DE ARTISTAS, SE ORDENA x ESE CAMPO, SINO POR ID
+            $orden = (!empty($_GET['orden']) && $_GET['orden'] == 1) ? "DESC" : "ASC"; //SI ESTA SETEADO EL ORDEN y ES 1 SE ORDENA DESCENDENTEMENTE, SINO ASCENDENTEMENTE
+
+            $artistas = $this->model->getArtistas($campo, $orden);
             $this->view->response($artistas, 200);
         } else {
             $artista = $this->model->getArtista($params[":ID"]);
@@ -114,7 +118,7 @@ class ArtistaApiController extends ApiController
                 $this->view->response("Artista ID: $id no existe", 404);
             }
         } else {
-            $this->view->response("No se puede eliminar el artista ya que existen canciones que dependen de él. Elimine sus canciones primero", 500);
+            $this->view->response("No se puede eliminar el artista ya que existen canciones que dependen de él. Elimine sus canciones primero", 400);
         }
     }
 }

@@ -16,9 +16,19 @@ class ArtistaApiModel
         );
     }
 
-    public function getArtistas()
+    public function columnExists($columna)
     {
-        $query = $this->db->prepare("SELECT * FROM artistas ORDER BY cant_oyentes DESC");
+        $query = $this->db->prepare('DESCRIBE `artistas`');
+        $query->execute();
+        $columnas = $query->fetchAll(PDO::FETCH_COLUMN);
+
+        return in_array($columna, $columnas);
+    }
+
+
+    public function getArtistas($campo, $orden)
+    {
+        $query = $this->db->prepare("SELECT * FROM artistas ORDER BY $campo $orden");
         $query->execute();
 
         return $query->fetchAll(PDO::FETCH_OBJ);
@@ -59,7 +69,8 @@ class ArtistaApiModel
 
     }
 
-    public function updateArtista($nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes,  $id){
+    public function updateArtista($nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes, $id)
+    {
         $query = $this->db->prepare('UPDATE `artistas` SET `nombre` = ?, `descripcion` = ?, `edad` = ?, `nacionalidad` = ?, `cant_oyentes` = ? WHERE id = ?');
         $query->execute([$nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes, $id]);
 
@@ -77,7 +88,8 @@ class ArtistaApiModel
         return $query->rowCount() > 0;
     }
 
-    public function getCancionesArtista($id){
+    public function getCancionesArtista($id)
+    {
         $query = $this->db->prepare("SELECT * from canciones WHERE id_artista = ?");
         $query->execute([$id]);
 
