@@ -18,11 +18,11 @@ class ArtistaApiController extends ApiController
     {
         if (empty($params)) {
 
-            $campo = (!empty($_GET['campo']) && $this->model->columnExists($_GET['campo']) ? $_GET['campo'] : 'id'); // SI ESTA SETEADO CAMPO Y EXISTE EN LA TABLA DE ARTISTAS, SE ORDENA x ESE CAMPO, SINO POR ID
+            $campo = (!empty($_GET['campo']) && $this->model->columnExists($_GET['campo']) ? $_GET['campo'] : 'cant_oyentes'); // SI ESTA SETEADO CAMPO Y EXISTE EN LA TABLA DE ARTISTAS, SE ORDENA x ESE CAMPO, SINO POR CANT OYENTES
             $orden = (!empty($_GET['orden']) && $_GET['orden'] == 1) ? "DESC" : "ASC"; //SI ESTA SETEADO EL ORDEN y ES 1 SE ORDENA DESCENDENTEMENTE, SINO ASCENDENTEMENTE
 
             $pagina = (!empty($_GET['pagina']) ? $_GET['pagina'] : 1);
-            $elemPorPagina = (!empty($_GET['cantElemsPagina']) ? $_GET['cantElemsPagina'] : 2);
+            $elemPorPagina = (!empty($_GET['cantElemsPagina']) ? $_GET['cantElemsPagina'] : 3);
             $start_index = ($pagina - 1) * $elemPorPagina;
 
             $artistas = $this->model->getArtistas($campo, $orden, $start_index, $elemPorPagina);
