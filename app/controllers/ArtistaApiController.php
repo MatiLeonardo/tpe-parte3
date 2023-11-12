@@ -27,8 +27,7 @@ class ArtistaApiController extends ApiController
 
             $artistas = $this->model->getArtistas($campo, $orden, $start_index, $elemPorPagina);
             $this->view->response($artistas, 200);
-        } 
-        else {
+        } else {
             $artista = $this->model->getArtista($params[":ID"]);
             if (!empty($artista)) {
                 $this->view->response($artista, 200);
@@ -68,6 +67,7 @@ class ArtistaApiController extends ApiController
 
         if (empty($id)) {
             $this->view->response("No se ha proporcionado un ID", 400);
+            return;
         }
 
         $body = $this->getData();
@@ -85,13 +85,19 @@ class ArtistaApiController extends ApiController
         $artista = $this->model->getArtista($id);
 
         if ($artista) {
+            if (!empty($_GET['confirmacion']) && $_GET['confirmacion'] === "true") {
 
-            if ($this->model->updateArtista($nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes, $id)) {
-                $this->view->response("Artista actualizado con éxito", 200);
+                if ($this->model->updateArtista($nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes, $id)) {
+                    $this->view->response("Artista actualizado con éxito", 200);
+                } else {
+                    $this->view->response("Error al actualizar el artista", 500);
+                }
+
             } else {
-                $this->view->response("Error al actualizar el artista", 500);
+                $confirmarURL = BASE_URL . "api/artistas/$id?confirmacion=true";
+                $mensaje = "¿Estás seguro de modificar el artista ID: $id? <a href='$confirmarURL'>Confirmar</a>";
+                $this->view->response($mensaje, 200);
             }
-
         } else {
             $this->view->response("El artista ID: $id no existe", 404);
         }
@@ -106,24 +112,26 @@ class ArtistaApiController extends ApiController
 
         if (empty($id)) {
             $this->view->response("No se ha proporcionado un ID", 400);
+            return;
         }
 
-        $cancionesArtista = $this->model->getCancionesArtista($id);
-        if (empty($cancionesArtista)) {
+        $artista = $this->model->getArtista($id);
 
-            $artista = $this->model->getArtista($id);
-            if ($artista) {
+        if ($artista) {
 
+            if (!empty($_GET['confirmacion']) && $_GET['confirmacion'] === "true") {
                 if ($this->model->deleteArtista($id)) {
                     $this->view->response("Artista ID: $id eliminado con éxito", 200);
                 } else {
                     $this->view->response("Error al eliminar el artista", 500);
                 }
             } else {
-                $this->view->response("Artista ID: $id no existe", 404);
+                $confirmarURL = BASE_URL . "api/artistas/$id?confirmacion=true";
+                $mensaje = "¿Estás seguro de eliminar el artista ID: $id? Ten en cuenta que sus canciones quedarán sin artista asociado <a href='$confirmarURL'>Confirmar</a>";
+                $this->view->response($mensaje, 200);
             }
         } else {
-            $this->view->response("No se puede eliminar el artista ya que existen canciones que dependen de él. Elimine sus canciones primero", 400);
+            $this->view->response("Artista ID: $id no existe", 404);
         }
     }
 }

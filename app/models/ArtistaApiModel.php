@@ -80,11 +80,5 @@ class ArtistaApiModel
         return $query->rowCount() > 0;
     }
 
-    public function getCancionesArtista($id)
-    {
-        $query = $this->db->prepare("SELECT * from canciones WHERE id_artista = ?");
-        $query->execute([$id]);
-
-        return $query->fetchAll(PDO::FETCH_OBJ);
-    }
+    
 }
