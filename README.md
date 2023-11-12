@@ -1,51 +1,74 @@
-# tpe-parte3
+# TPE Parte 3: API de Información de Artistas
 
-API Información de artistas
-Esta api tiene como fin el acceso a datos de artistas incorporados en una base de datos
+¡Bienvenido a la API de Información de Artistas! Este proyecto ofrece acceso a datos de artistas almacenados en una base de datos.
 
-Aviso especial para Belen. Dado a que habíamos decidido utilizar cascade, incorporamos el sistema de confirmación que nos habias requerido para eliminar el artista y para modificarlo.
+**Aviso Especial para Belén:** Hemos incorporado el sistema de confirmación que solicitaste para la eliminación y modificación de artistas, tal como discutimos al decidir el uso de cascade.
 
-Miembro A: Gonzalo Giacomino
-Miembro B: Matias Gallardo
+**Integrantes del Equipo:**
+- Gonzalo Giacomino
+- Matías Gallardo
 
-ENDPOINTS
+## Endpoints
 
+### Listado de Artistas
 
-Listado
+Cada artista se presenta en el siguiente formato:
 
-Cada artista se listará de la siguiente forma: 
- {
-        "id": "2",
-        "nombre": "Juan",
-        "descripcion": "Holita",
-        "edad": "42",
-        "nacionalidad": "Puerto rico",
-        "cant_oyentes": "51515151"
- }
-
- GET:/albums
-Este endpoint tiene como fin listar los artistas por defecto basado en la cantidad de oyentes de manera ascendente.
-Se puede filtrar a través de los siguientes query params:
-
-?campo=nombre \ Tiene como objetivo filtrar a través de campos existentes en la tabla. Ejemplo nombre, edad, nacionalidad.
-?orden=1 \ Tiene como objetivo filtrar de manera descendente (1) o ascendente (0)
-
-
- GET:/albums/:ID
- Este endpoint tiene como fin listar la información de un artista especificado por ID
-
- POST:/albums
-Este endpoint tiene como fin agregar un artista a la base de datos.
-Deben pasarse los siguientes datos en el body:
+```json
 {
-        "id": "2",
-        "nombre": "Juan",
-        "descripcion": "Holita",
-        "edad": "42",
-        "nacionalidad": "Puerto rico",
-        "cant_oyentes": "51515151"
- }
+    "id": "2",
+    "nombre": "Juan",
+    "descripcion": "Holita",
+    "edad": "42",
+    "nacionalidad": "Puerto Rico",
+    "cant_oyentes": "51515151"
+}
 
+    GET:/artists
+    Obtiene un listado de artistas ordenados por la cantidad de oyentes, de forma ascendente por defecto.
 
-PUT:/albums/:ID
+Ordenamiento
 
+    Query Params:
+        ?campo=nombre: Filtra los artistas por campos existentes en la tabla, por ejemplo: nombre, edad, nacionalidad.
+        ?orden=1: Ordena de manera descendente (1) o ascendente (0).
+
+Paginado
+
+    Query Params:
+        ?cantElemsPagina: Define la cantidad de elementos a mostrar (por defecto, 3).
+        ?pagina: Indica la página que se quiere recuperar.
+
+Detalles de un Artista
+
+    GET:/artists/:ID
+    Obtiene la información de un artista específico mediante su ID.
+
+Agregar un Artista
+
+    POST:/artists
+    Agrega un nuevo artista a la base de datos. Se deben proporcionar los siguientes datos en el body.
+
+Modificar un Artista
+
+    PUT:/artists/:ID
+    Modifica los datos de un artista especificado por su ID. Se requiere confirmación a través del query param ?confirmacion=true. En caso de no proporcionar ciertos datos, como la edad, se mantendrá el valor existente en la base de datos.
+
+Ejemplo de Uso:
+
+http
+
+PUT:/api/artistas/2?confirmacion=true
+
+Eliminar un Artista
+
+    DELETE:/artists/:ID
+    Elimina un artista de la base de datos, indicando su ID. Se requiere confirmación a través del query param ?confirmacion=true.
+
+Ejemplo de Uso:
+
+http
+
+DELETE:/api/artistas/2?confirmacion=true
+
+Este README proporciona detalles sobre los endpoints disponibles y cómo interactuar con la API para listar, agregar, modificar y eliminar información de artistas en la base de datos.
