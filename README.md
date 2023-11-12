@@ -24,7 +24,7 @@ Cada artista se presenta en el siguiente formato:
     "cant_oyentes": "51515151"
 }
 
-    GET:/artists
+    GET:/artistas
     Obtiene un listado de artistas ordenados por la cantidad de oyentes, de forma ascendente por defecto.
 
 Ordenamiento
@@ -41,17 +41,17 @@ Paginado
 
 Detalles de un Artista
 
-    GET:/artists/:ID
+    GET:/artistas/:ID
     Obtiene la información de un artista específico mediante su ID.
 
 Agregar un Artista
 
-    POST:/artists
+    POST:/artistas
     Agrega un nuevo artista a la base de datos. Se deben proporcionar los siguientes datos en el body.
 
 Modificar un Artista
 
-    PUT:/artists/:ID
+    PUT:/artistas/:ID
     Modifica los datos de un artista especificado por su ID. Se requiere confirmación a través del query param ?confirmacion=true. En caso de no proporcionar ciertos datos, como la edad, se mantendrá el valor existente en la base de datos.
 
 Ejemplo de Uso:
@@ -62,7 +62,7 @@ PUT:/api/artistas/2?confirmacion=true
 
 Eliminar un Artista
 
-    DELETE:/artists/:ID
+    DELETE:/artistas/:ID
     Elimina un artista de la base de datos, indicando su ID. Se requiere confirmación a través del query param ?confirmacion=true.
 
 Ejemplo de Uso:
