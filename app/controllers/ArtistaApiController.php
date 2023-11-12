@@ -71,39 +71,44 @@ class ArtistaApiController extends ApiController
         }
 
         $body = $this->getData();
-        if (empty($body->nombre) || empty($body->descripcion) || empty($body->edad) || empty($body->nacionalidad) || empty($body->cant_oyentes)) {
-            $this->view->response("Falta ingresar algún dato", 400);
-        } else {
-            $nombre = $body->nombre;
-            $descripcion = $body->descripcion;
-            $edad = $body->edad;
-            $nacionalidad = $body->nacionalidad;
-            $cant_oyentes = $body->cant_oyentes;
-        }
-
 
         $artista = $this->model->getArtista($id);
 
-        if ($artista) {
-            if (!empty($_GET['confirmacion']) && $_GET['confirmacion'] === "true") {
-
-                if ($this->model->updateArtista($nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes, $id)) {
-                    $this->view->response("Artista actualizado con éxito", 200);
-                } else {
-                    $this->view->response("Error al actualizar el artista", 500);
-                }
-
-            } else {
-                $confirmarURL = BASE_URL . "api/artistas/$id?confirmacion=true";
-                $mensaje = "¿Estás seguro de modificar el artista ID: $id? <a href='$confirmarURL'>Confirmar</a>";
-                $this->view->response($mensaje, 200);
-            }
-        } else {
+        if (!$artista) {
             $this->view->response("El artista ID: $id no existe", 404);
+            return;
         }
 
+        $datosNuevos = (array) $body + (array) $artista; //ACA SUMAMOS PARA QUE SE MANTENGAN LOS DATOS EXISTENTES EN CASO DE VENIR VACIO
 
+        foreach ($datosNuevos as $campo) {
+            if (empty($campo)) {
+                $this->view->response("Faltó ingresar un dato", 400);
+            }
+        }
 
+        if (!empty($_GET['confirmacion']) && $_GET['confirmacion'] === "true") {
+
+            if (
+                $this->model->updateArtista(
+                    $datosNuevos['nombre'],
+                    $datosNuevos['descripcion'],
+                    $datosNuevos['edad'],
+                    $datosNuevos['nacionalidad'],
+                    $datosNuevos['cant_oyentes'],
+                    $id
+                )
+            ) {
+                $this->view->response("Artista actualizado con éxito", 200);
+            } else {
+                $this->view->response("Error al actualizar el artista", 500);
+            }
+
+        } else {
+            $confirmarURL = BASE_URL . "api/artistas/$id?confirmacion=true";
+            $mensaje = "¿Estás seguro de modificar el artista ID: $id? <a href='$confirmarURL'>Confirmar</a>";
+            $this->view->response($mensaje, 200);
+        }
     }
 
     public function delete($params = [])
