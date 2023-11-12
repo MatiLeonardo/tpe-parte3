@@ -59,6 +59,13 @@ class ArtistaApiModel
 
     }
 
+    public function updateArtista($nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes,  $id){
+        $query = $this->db->prepare('UPDATE `artistas` SET `nombre` = ?, `descripcion` = ?, `edad` = ?, `nacionalidad` = ?, `cant_oyentes` = ? WHERE id = ?');
+        $query->execute([$nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes, $id]);
+
+    }
+
+
 
     public function deleteArtista($id)
     {

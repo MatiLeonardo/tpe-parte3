@@ -53,6 +53,42 @@ class ArtistaApiController extends ApiController
 
     }
 
+    public function update($params = [])
+    {
+        $id = $params[':ID'];
+
+        if (empty($id)) {
+            $this->view->response("No se ha proporcionado un ID", 400);
+        }
+
+        $body = $this->getData();
+        if (empty($body->nombre) || empty($body->descripcion) || empty($body->edad) || empty($body->nacionalidad) || empty($body->cant_oyentes)) {
+            $this->view->response("Falta ingresar algún dato", 400);
+        }
+
+        $artista = $this->model->getArtista($id);
+
+        if ($artista) {
+            $nombre = $body->nombre;
+            $descripcion = $body->descripcion;
+            $edad = $body->edad;
+            $nacionalidad = $body->nacionalidad;
+            $cant_oyentes = $body->cant_oyentes;
+
+            if ($this->model->updateArtista($nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes, $id)) {
+                $this->view->response("Artista actualizado con éxito", 200);
+            } else {
+                $this->view->response("Error al actualizar el artista", 500);
+            }
+
+        } else {
+            $this->view->response("El artista ID: $id no existe", 404);
+        }
+
+
+
+    }
+
     public function delete($params = [])
     {
         $id = $params[':ID'];
