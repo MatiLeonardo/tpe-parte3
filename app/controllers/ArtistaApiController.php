@@ -64,16 +64,18 @@ class ArtistaApiController extends ApiController
         $body = $this->getData();
         if (empty($body->nombre) || empty($body->descripcion) || empty($body->edad) || empty($body->nacionalidad) || empty($body->cant_oyentes)) {
             $this->view->response("Falta ingresar algún dato", 400);
-        }
-
-        $artista = $this->model->getArtista($id);
-
-        if ($artista) {
+        } else {
             $nombre = $body->nombre;
             $descripcion = $body->descripcion;
             $edad = $body->edad;
             $nacionalidad = $body->nacionalidad;
             $cant_oyentes = $body->cant_oyentes;
+        }
+
+
+        $artista = $this->model->getArtista($id);
+
+        if ($artista) {
 
             if ($this->model->updateArtista($nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes, $id)) {
                 $this->view->response("Artista actualizado con éxito", 200);
@@ -97,16 +99,22 @@ class ArtistaApiController extends ApiController
             $this->view->response("No se ha proporcionado un ID", 400);
         }
 
-        $artista = $this->model->getArtista($id);
+        $cancionesArtista = $this->model->getCancionesArtista($id);
+        if (empty($cancionesArtista)) {
 
-        if ($artista) {
-            if ($this->model->deleteArtista($id)) {
-                $this->view->response("Artista ID: $id eliminado con éxito", 200);
+            $artista = $this->model->getArtista($id);
+            if ($artista) {
+
+                if ($this->model->deleteArtista($id)) {
+                    $this->view->response("Artista ID: $id eliminado con éxito", 200);
+                } else {
+                    $this->view->response("Error al eliminar el artista", 500);
+                }
             } else {
-                $this->view->response("Error al eliminar el artista", 500);
+                $this->view->response("Artista ID: $id no existe", 404);
             }
         } else {
-            $this->view->response("Artista ID: $id no existe", 404);
+            $this->view->response("No se puede eliminar el artista ya que existen canciones que dependen de él. Elimine sus canciones primero", 500);
         }
     }
 }

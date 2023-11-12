@@ -43,7 +43,7 @@ class ArtistaApiModel
 
     public function getArtistaName($nombre)
     {
-        $query = $this->db->prepare('SELECT * from artistas WHERE nombre_artista = ?');
+        $query = $this->db->prepare('SELECT * from artistas WHERE nombre = ?');
         $query->execute([$nombre]);
         $artista = $query->fetch(PDO::FETCH_OBJ);
 
@@ -52,7 +52,7 @@ class ArtistaApiModel
 
     function addArtista($nombre, $descripcion, $edad, $nacionalidad, $oyentes)
     {
-        $query = $this->db->prepare('INSERT INTO artistas (nombre_artista, descripcion, edad, nacionalidad, oyentes) VALUES (?, ?, ?, ?, ?)');
+        $query = $this->db->prepare('INSERT INTO artistas (nombre, descripcion, edad, nacionalidad, cant_oyentes) VALUES (?, ?, ?, ?, ?)');
         $query->execute([$nombre, $descripcion, $edad, $nacionalidad, $oyentes]);
 
         return $this->db->lastInsertId();
@@ -63,6 +63,8 @@ class ArtistaApiModel
         $query = $this->db->prepare('UPDATE `artistas` SET `nombre` = ?, `descripcion` = ?, `edad` = ?, `nacionalidad` = ?, `cant_oyentes` = ? WHERE id = ?');
         $query->execute([$nombre, $descripcion, $edad, $nacionalidad, $cant_oyentes, $id]);
 
+        return $query->rowCount() > 0;
+
     }
 
 
@@ -71,5 +73,14 @@ class ArtistaApiModel
     {
         $query = $this->db->prepare('DELETE FROM artistas WHERE id = ?');
         $query->execute([$id]);
+
+        return $query->rowCount() > 0;
+    }
+
+    public function getCancionesArtista($id){
+        $query = $this->db->prepare("SELECT * from canciones WHERE id_artista = ?");
+        $query->execute([$id]);
+
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 }
